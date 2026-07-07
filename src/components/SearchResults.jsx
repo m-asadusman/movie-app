@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../utils/tmdb';
@@ -8,18 +7,24 @@ function SearchResults() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0)
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const query = searchParams.get('q');
+  const page = Number(searchParams.get('page')) || 1;
+  const [totalPages, setTotalPages] = useState(0);
+
+  const setPage = (newPage) => {
+    setSearchParams({ q: query, page: newPage });
+  };
 
   useEffect(() => {
-    setPage(1);
+    if (query) {
+      setSearchParams({ q: query, page: 1 });
+    }
   }, [query]);
 
   useEffect(() => {
     const loadMovies = async () => {
-
       if (!query) {
         setMovies([]);
         setLoading(false);
@@ -45,7 +50,7 @@ function SearchResults() {
   }, [query, page]);
 
   const getPageNumbers = () => {
-    const delta = 2; // How many pages to show on each side of current page
+    const delta = 2;
     const range = [];
     const start = Math.max(1, page - delta);
     const end = Math.min(totalPages, page + delta);
@@ -54,13 +59,11 @@ function SearchResults() {
       range.push(i);
     }
 
-    // Add first page if not in range
     if (start > 1) {
       range.unshift(1);
       if (start > 2) range.splice(1, 0, '...');
     }
 
-    // Add last page if not in range
     if (end < totalPages) {
       if (end < totalPages - 1) range.push('...');
       range.push(totalPages);
@@ -72,7 +75,7 @@ function SearchResults() {
   const pageNumbers = getPageNumbers();
 
   if (loading) {
-    return <h3 className="tag text-lg sm:text-xl lg:text-2xl">Searching...</h3>;
+    return <h3 className="tag text-lg sm:text-xl lg:text-2xl"><div className='animate-spin'>🎬</div></h3>;
   }
 
   if (error) {
@@ -93,7 +96,7 @@ function SearchResults() {
 
   return (
     <>
-      <h1 className='tag text-lg sm:text-xl lg:text-2xl'>Search results for: '{query}'</h1>
+      <h1 className='htag tag text-lg sm:text-xl lg:text-2xl'>Search results for: '{query}'</h1>
       <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 padding'>
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
@@ -102,7 +105,7 @@ function SearchResults() {
 
       {totalPages > 0 && (
         <div className="flex flex-wrap justify-center items-center gap-2 py-6">
-          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed">◀</button>
+          <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1} className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed">◀</button>
 
           {pageNumbers.map((p, index) => {
             if (p === undefined || p === null) return null;
@@ -111,10 +114,9 @@ function SearchResults() {
             return <button key={index} onClick={() => isNumber && setPage(p)} disabled={!isNumber} className={`page-btns ${isActive ? 'active' : ''}`}>{p}</button>;
           })}
 
-          <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed">▶</button>
+          <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages} className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed">▶</button>
         </div>
       )}
-
     </>
   );
 }

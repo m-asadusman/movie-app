@@ -9,11 +9,11 @@ export default tmdb
 export const fetchMovies = async (page = 1)=>{
     const res = await fetch(tmdb.baseUrl+'/movie/now_playing?api_key='+tmdb.apikey+'&page='+page)
     const data = await res.json()
-    return data.results
+    return data
 }
 
 export const fetchMovieDetails = async (id)=>{
-    const res = await fetch(tmdb.baseUrl+'/movie/'+id+'?api_key='+tmdb.apikey)
+    const res = await fetch(`${tmdb.baseUrl}/movie/${id}?api_key=${tmdb.apikey}&append_to_response=credits`)
     const data = await res.json()
     return data
 }
