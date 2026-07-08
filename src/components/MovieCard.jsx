@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 function MovieCard({movie}) {
 
-  if(!movie.title) return <h3 style={{textAlign:'center', marginTop:'20px'}}>Movie not found</h3>
+  if(!movie.title) return <h3 className="mtag tag text-lg sm:text-xl lg:text-2xl">Movie not found</h3>
 
   return (
     <>

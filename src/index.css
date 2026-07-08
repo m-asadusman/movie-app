@@ -62,7 +62,7 @@ body {
 }
 
 .tag{
-  width: 40%;
+  width: 80%;
   border-radius: 10px;
   text-align: center;
   padding: 10px;
@@ -71,9 +71,8 @@ body {
   margin: 0 auto;
   margin-top: 20px;
 }
-
-.htag{
-  width: 80%;
+.mtag{
+  margin-top: 100px;
 }
 
 .card{

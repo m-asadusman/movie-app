@@ -1,4 +1,4 @@
-# Flix
+# Movie Discovery App
 
 A React-based movie discovery app that lets users browse now playing movies, search for any movie, and watch trailers.
 

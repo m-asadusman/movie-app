@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import MovieCard from './MovieCard';
 import { fetchMovies } from '../utils/tmdb';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -52,13 +53,13 @@ function Home() {
   const pageNumbers = getPageNumbers();
 
   if (loading) {
-    return <h3 className="tag text-lg sm:text-xl lg:text-2xl"><div className='animate-spin'>🎬</div></h3>;
+    return <h3 className="mtag tag text-lg sm:text-xl lg:text-2xl"><div className='animate-spin'>🎬</div></h3>;
   }
 
   return (
     <>
     
-      <h1 className="tag text-lg sm:text-xl lg:text-2xl">Now Playing🔻</h1>
+      <h1 className="tag text-lg sm:text-xl lg:text-2xl">Now Playing 🔻</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 padding">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
@@ -72,7 +73,7 @@ function Home() {
             disabled={page === 1}
             className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            ◀
+            <ChevronLeft/>
           </button>
 
           {pageNumbers.map((p, index) => {
@@ -96,7 +97,7 @@ function Home() {
             disabled={page === totalPages}
             className="page-btns rounded disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            ▶
+            <ChevronRight/>
           </button>
         </div>
       )}

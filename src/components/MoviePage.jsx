@@ -19,11 +19,9 @@ function MoviePage() {
     loadData();
   }, [id]);
 
-  if (!movie) return <h3 className="tag text-lg sm:text-xl lg:text-2xl"><div className='animate-spin'>🎬</div></h3>;
+  if (!movie) return <h3 className="mtag tag text-lg sm:text-xl lg:text-2xl"><div className='animate-spin'>🎬</div></h3>;
 
-  // Get director
   const director = movie.credits?.crew?.find(person => person.job === 'Director');
-  // Get top 5 cast
   const cast = movie.credits?.cast?.slice(0, 5) || [];
 
   return (
@@ -52,14 +50,12 @@ function MoviePage() {
             </div>
           )}
 
-          {/* Director */}
           {director && (
             <p className="text-sm md:text-base text-gray-400 mt-1">
               Director: <span className="text-gray-300">{director.name}</span>
             </p>
           )}  
 
-          {/* Cast */}
           {cast.length > 0 && (
             <p className="text-sm md:text-base text-gray-400 mt-1">
               Cast: <span className="text-gray-300">{cast.map(c => c.name).join(', ')}</span>
@@ -72,7 +68,7 @@ function MoviePage() {
 
       {trailer ? (
         <>
-          <span className="trailer-text text-xl md:text-2xl font-bold mt-6">Watch Trailer🔻</span>
+          <span className="trailer-text text-xl md:text-2xl font-bold mt-6">Watch Trailer 🔻</span>
           <div className='trailer border-3 border-[#8a5cf680] rounded-2xl w-full lg:w-200 overflow-hidden' style={{ padding: '0px' }}>
             <iframe
               src={`https://www.youtube.com/embed/${trailer}`}
